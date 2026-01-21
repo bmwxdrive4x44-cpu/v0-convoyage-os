@@ -85,9 +85,12 @@ export function DriverOnboardingForm() {
   })
 
   const handleDocumentSelect = async (docId: string, file: File) => {
+    console.log("[v0] Document selected:", { docId, fileName: file.name, fileSize: file.size, fileType: file.type })
+
     // Validate file
     const maxSize = 10 * 1024 * 1024 // 10MB
     if (file.size > maxSize) {
+      console.log("[v0] File too large:", file.size)
       setUploadErrors((prev) => ({
         ...prev,
         [docId]: "Le fichier ne doit pas dépasser 10MB",
@@ -97,6 +100,7 @@ export function DriverOnboardingForm() {
 
     const allowedTypes = ["application/pdf", "image/jpeg", "image/png"]
     if (!allowedTypes.includes(file.type)) {
+      console.log("[v0] Invalid file type:", file.type)
       setUploadErrors((prev) => ({
         ...prev,
         [docId]: "Format accepté: PDF, JPEG, PNG",
@@ -113,7 +117,7 @@ export function DriverOnboardingForm() {
 
     // Update status to uploading
     setDocuments((prev) =>
-      prev.map((doc) => (doc.id === docId ? { ...doc, status: "uploading" } : doc))
+      prev.map((doc) => (doc.id === docId ? { ...doc, status: "uploading" as const } : doc))
     )
 
     try {
@@ -122,26 +126,29 @@ export function DriverOnboardingForm() {
       formData.append("driverId", "driver_001")
       formData.append("docId", docId)
 
-      console.log(`[v0] Uploading document: ${file.name} for ${docId}`)
+      console.log("[v0] Uploading document to API:", docId)
 
       const response = await fetch("/api/documents/upload", {
         method: "POST",
         body: formData,
       })
 
+      console.log("[v0] Upload response status:", response.status)
+
       if (!response.ok) {
-        throw new Error("Upload failed")
+        const errorData = await response.json()
+        throw new Error(errorData.error || "Upload failed")
       }
 
       const fileData = await response.json()
-      console.log(`[v0] Document uploaded successfully: ${fileData.fileId}`)
+      console.log("[v0] Document uploaded successfully:", fileData)
 
       setDocuments((prev) =>
         prev.map((doc) =>
           doc.id === docId
             ? {
                 ...doc,
-                status: "uploaded",
+                status: "uploaded" as const,
                 file: {
                   id: fileData.fileId,
                   name: fileData.fileName,
@@ -153,13 +160,13 @@ export function DriverOnboardingForm() {
         )
       )
     } catch (error) {
-      console.error(`[v0] Error uploading document: ${error}`)
+      console.error("[v0] Error uploading document:", error)
       setUploadErrors((prev) => ({
         ...prev,
-        [docId]: "Erreur lors de l'upload",
+        [docId]: error instanceof Error ? error.message : "Erreur lors de l'upload",
       }))
       setDocuments((prev) =>
-        prev.map((doc) => (doc.id === docId ? { ...doc, status: "pending" } : doc))
+        prev.map((doc) => (doc.id === docId ? { ...doc, status: "pending" as const } : doc))
       )
     }
   }

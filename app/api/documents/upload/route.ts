@@ -9,20 +9,15 @@ export async function POST(request: Request) {
     const docId = formData.get("docId") as string
 
     if (!file || !driverId || !docId) {
+      console.error("[v0] Missing required fields:", { file: !!file, driverId, docId })
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Convert File to ArrayBuffer
-    const buffer = await file.arrayBuffer()
-    const data = Buffer.from(buffer)
+    console.log(`[v0] Uploading file: ${file.name} (${file.size} bytes) for ${driverId}/${docId}`)
 
-    // Store file
-    const fileId = `${driverId}_${docId}_${Date.now()}`
-    fileStorage.getFile(fileId) // This just checks if it exists, we'll use a simpler approach
+    // Store file using the file storage service
+    const fileId = await fileStorage.uploadFile(file, driverId, docId)
 
-    console.log(`[v0] File upload API: ${file.name} (${file.size} bytes)`)
-
-    // Return file metadata
     return NextResponse.json(
       {
         fileId,
@@ -35,6 +30,9 @@ export async function POST(request: Request) {
     )
   } catch (error) {
     console.error("[v0] File upload error:", error)
-    return NextResponse.json({ error: "File upload failed" }, { status: 500 })
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "File upload failed" },
+      { status: 500 }
+    )
   }
 }
