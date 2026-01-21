@@ -239,7 +239,7 @@ export function RegisterForm() {
       <CardFooter className="flex justify-center pb-6">
         <p className="text-sm text-muted-foreground">
           Déjà un compte ?{" "}
-          <Link href="/auth/client" className="text-primary font-medium hover:underline">
+          <Link href="/auth/login" className="text-primary font-medium hover:underline">
             Se connecter
           </Link>
         </p>

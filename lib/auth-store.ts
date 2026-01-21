@@ -20,13 +20,20 @@ class AuthStore {
   private users: Map<string, UserAccount> = new Map()
 
   constructor() {
-    // Initialize with demo user with both roles
+    // Initialize with demo users
     this.users.set("demo@example.com", {
       id: "user_001",
       email: "demo@example.com",
-      password: "hashed_password_demo",
+      password: "password123",
       name: "Demo User",
       roles: ["client"],
+    })
+    this.users.set("driver@example.com", {
+      id: "user_002",
+      email: "driver@example.com",
+      password: "password123",
+      name: "Test Driver",
+      roles: ["driver"],
     })
   }
 
