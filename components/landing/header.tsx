@@ -1,12 +1,14 @@
 "use client"
 
 import type React from "react"
+import { Truck } from "lucide-react" // Import Truck here
 
 import { Button } from "@/components/ui/button"
-import { Truck, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
+import { Logo } from "./logo"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -29,10 +31,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-              <Truck className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-xl text-foreground">Convoyageos</span>
+            <Logo />
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -54,9 +53,6 @@ export function Header() {
           <div className="hidden md:flex items-center gap-3">
             <Button asChild variant="ghost">
               <Link href="/auth/login">Connexion</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/auth/register">Inscription</Link>
             </Button>
           </div>
 
@@ -93,9 +89,6 @@ export function Header() {
               <div className="pt-4 border-t border-border flex flex-col gap-2">
                 <Button asChild variant="outline" className="w-full bg-transparent">
                   <Link href="/auth/login">Connexion</Link>
-                </Button>
-                <Button asChild className="w-full">
-                  <Link href="/auth/register">Inscription</Link>
                 </Button>
               </div>
             </nav>

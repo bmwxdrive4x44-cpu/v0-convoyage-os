@@ -1,12 +1,11 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard/dashboard-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
 export default function CGVPage() {
   return (
-    <DashboardLayout>
+    <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto py-12 px-4">
         <h1 className="text-4xl font-bold mb-2">Conditions Générales de Vente</h1>
         <p className="text-muted-foreground mb-8">Dernière mise à jour: janvier 2026</p>
@@ -118,6 +117,6 @@ export default function CGVPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </div>
   )
 }
