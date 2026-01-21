@@ -65,14 +65,89 @@ export function ConvoyageForm() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const isStep1Valid = () => {
+    return formData.vehicleBrand && formData.vehicleModel && formData.vehicleType && formData.vehiclePlate
+  }
+
+  const isStep2Valid = () => {
+    return (
+      formData.pickupAddress &&
+      formData.pickupCity &&
+      formData.pickupPostalCode &&
+      formData.deliveryAddress &&
+      formData.deliveryCity &&
+      formData.deliveryPostalCode
+    )
+  }
+
+  const isStep3Valid = () => {
+    return formData.preferredDate && formData.flexibleDates
+  }
+
+  const validateForm = () => {
+    const requiredFields = [
+      { field: "vehicleBrand", name: "Marque du véhicule" },
+      { field: "vehicleModel", name: "Modèle du véhicule" },
+      { field: "vehicleType", name: "Type de véhicule" },
+      { field: "vehiclePlate", name: "Immatriculation" },
+      { field: "pickupAddress", name: "Adresse de départ" },
+      { field: "pickupCity", name: "Ville de départ" },
+      { field: "pickupPostalCode", name: "Code postal de départ" },
+      { field: "deliveryAddress", name: "Adresse de livraison" },
+      { field: "deliveryCity", name: "Ville de livraison" },
+      { field: "deliveryPostalCode", name: "Code postal de livraison" },
+      { field: "preferredDate", name: "Date souhaitée" },
+      { field: "flexibleDates", name: "Flexibilité de date" },
+    ]
+
+    const missingFields = requiredFields.filter((item) => !formData[item.field as keyof ConvoyageFormData])
+    if (missingFields.length > 0) {
+      return {
+        valid: false,
+        message: `Champs obligatoires manquants: ${missingFields.map((f) => f.name).join(", ")}`,
+      }
+    }
+
+    return { valid: true, message: "" }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const validation = validateForm()
+    if (!validation.valid) {
+      alert(validation.message)
+      return
+    }
+
     setIsSubmitting(true)
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      console.log("[v0] Submitting convoyage with data:", formData)
+      const response = await fetch("/api/convoyages/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientId: "client_001",
+          ...formData,
+        }),
+      })
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+      const responseData = await response.json()
+      console.log("[v0] API response:", responseData)
+
+      if (!response.ok) {
+        throw new Error(responseData.error || "Failed to create convoyage")
+      }
+
+      console.log("[v0] Convoyage created successfully:", responseData)
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error("[v0] Error submitting convoyage:", error)
+      setIsSubmitting(false)
+      alert(`Erreur lors de la création du convoyage: ${error instanceof Error ? error.message : "Erreur inconnue"}`)
+    }
   }
 
   if (isSubmitted) {
@@ -185,7 +260,7 @@ export function ConvoyageForm() {
                 </div>
               </div>
               <div className="flex justify-end">
-                <Button type="button" onClick={() => setStep(2)}>
+                <Button type="button" onClick={() => setStep(2)} disabled={!isStep1Valid()}>
                   Continuer
                 </Button>
               </div>
@@ -300,7 +375,7 @@ export function ConvoyageForm() {
                 <Button type="button" variant="outline" onClick={() => setStep(1)} className="bg-transparent">
                   Retour
                 </Button>
-                <Button type="button" onClick={() => setStep(3)}>
+                <Button type="button" onClick={() => setStep(3)} disabled={!isStep2Valid()}>
                   Continuer
                 </Button>
               </div>
@@ -358,7 +433,7 @@ export function ConvoyageForm() {
                 <Button type="button" variant="outline" onClick={() => setStep(2)} className="bg-transparent">
                   Retour
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting || !isStep3Valid()}>
                   {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Publier la demande
                 </Button>
