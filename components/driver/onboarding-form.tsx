@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,7 +22,7 @@ import {
   AlertCircle,
 } from "lucide-react"
 
-type DocumentStatus = "pending" | "uploaded" | "validated" | "rejected"
+type DocumentStatus = "pending" | "uploading" | "uploaded" | "validated" | "rejected"
 
 interface Document {
   id: string
@@ -30,7 +30,12 @@ interface Document {
   icon: React.ElementType
   description: string
   status: DocumentStatus
-  file?: string
+  file?: {
+    id: string
+    name: string
+    size: number
+    uploadedAt: string
+  }
 }
 
 const initialDocuments: Document[] = [
@@ -69,6 +74,8 @@ export function DriverOnboardingForm() {
   const [documents, setDocuments] = useState<Document[]>(initialDocuments)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({})
+  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
   const [profileData, setProfileData] = useState({
     firstName: "",
     lastName: "",
@@ -77,19 +84,107 @@ export function DriverOnboardingForm() {
     experience: "",
   })
 
-  const handleDocumentUpload = (docId: string) => {
+  const handleDocumentSelect = async (docId: string, file: File) => {
+    // Validate file
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    if (file.size > maxSize) {
+      setUploadErrors((prev) => ({
+        ...prev,
+        [docId]: "Le fichier ne doit pas dépasser 10MB",
+      }))
+      return
+    }
+
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png"]
+    if (!allowedTypes.includes(file.type)) {
+      setUploadErrors((prev) => ({
+        ...prev,
+        [docId]: "Format accepté: PDF, JPEG, PNG",
+      }))
+      return
+    }
+
+    // Clear previous errors
+    setUploadErrors((prev) => {
+      const newErrors = { ...prev }
+      delete newErrors[docId]
+      return newErrors
+    })
+
+    // Update status to uploading
     setDocuments((prev) =>
-      prev.map((doc) => (doc.id === docId ? { ...doc, status: "uploaded", file: "document.pdf" } : doc)),
+      prev.map((doc) => (doc.id === docId ? { ...doc, status: "uploading" } : doc))
     )
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("driverId", "driver_001")
+      formData.append("docId", docId)
+
+      console.log(`[v0] Uploading document: ${file.name} for ${docId}`)
+
+      const response = await fetch("/api/documents/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error("Upload failed")
+      }
+
+      const fileData = await response.json()
+      console.log(`[v0] Document uploaded successfully: ${fileData.fileId}`)
+
+      setDocuments((prev) =>
+        prev.map((doc) =>
+          doc.id === docId
+            ? {
+                ...doc,
+                status: "uploaded",
+                file: {
+                  id: fileData.fileId,
+                  name: fileData.fileName,
+                  size: fileData.fileSize,
+                  uploadedAt: fileData.uploadedAt,
+                },
+              }
+            : doc
+        )
+      )
+    } catch (error) {
+      console.error(`[v0] Error uploading document: ${error}`)
+      setUploadErrors((prev) => ({
+        ...prev,
+        [docId]: "Erreur lors de l'upload",
+      }))
+      setDocuments((prev) =>
+        prev.map((doc) => (doc.id === docId ? { ...doc, status: "pending" } : doc))
+      )
+    }
+  }
+
+  const handleDocumentUpload = (docId: string) => {
+    const fileInput = fileInputRefs.current[docId]
+    if (fileInput) {
+      fileInput.click()
+    }
   }
 
   const allDocumentsUploaded = documents.every((doc) => doc.status !== "pending")
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+    try {
+      // In production, this would send all data to backend
+      console.log("[v0] Submitting driver onboarding with documents")
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error("[v0] Error submitting onboarding:", error)
+      setIsSubmitting(false)
+    }
   }
 
   if (isSubmitted) {
@@ -231,40 +326,59 @@ export function DriverOnboardingForm() {
 
             <div className="space-y-3">
               {documents.map((doc) => (
-                <div key={doc.id} className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`h-10 w-10 rounded-lg flex items-center justify-center ${
-                        doc.status === "uploaded" ? "bg-success/20" : "bg-primary/10"
-                      }`}
-                    >
-                      <doc.icon className={`h-5 w-5 ${doc.status === "uploaded" ? "text-success" : "text-primary"}`} />
+                <div key={doc.id}>
+                  {uploadErrors[doc.id] && (
+                    <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 mb-2">
+                      <p className="text-sm text-destructive">{uploadErrors[doc.id]}</p>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground">{doc.name}</p>
-                      <p className="text-sm text-muted-foreground">{doc.description}</p>
-                    </div>
-                  </div>
-                  {doc.status === "uploaded" ? (
-                    <div className="flex items-center gap-2 text-success">
-                      <Check className="h-4 w-4" />
-                      <span className="text-sm font-medium">Téléchargé</span>
-                    </div>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDocumentUpload(doc.id)}
-                      className="bg-transparent"
-                    >
-                      <Upload className="h-4 w-4 mr-2" />
-                      Télécharger
-                    </Button>
                   )}
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                          doc.status === "uploaded" ? "bg-success/20" : "bg-primary/10"
+                        }`}
+                      >
+                        <doc.icon
+                          className={`h-5 w-5 ${doc.status === "uploaded" ? "text-success" : "text-primary"}`}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground">{doc.name}</p>
+                        {doc.file ? (
+                          <p className="text-sm text-muted-foreground">
+                            {doc.file.name} • {(doc.file.size / 1024).toFixed(1)}KB
+                          </p>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">{doc.description}</p>
+                        )}
+                      </div>
+                    </div>
+                    {doc.status === "uploading" ? (
+                      <div className="flex items-center gap-2 text-primary">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span className="text-sm">Upload...</span>
+                      </div>
+                    ) : doc.status === "uploaded" ? (
+                      <div className="flex items-center gap-2 text-success">
+                        <Check className="h-4 w-4" />
+                        <span className="text-sm font-medium">Téléchargé</span>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDocumentUpload(doc.id)}
+                        className="bg-transparent"
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Choisir fichier
+                      </Button>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
-
             <div className="flex justify-between pt-4">
               <Button variant="outline" onClick={() => setStep(1)} className="bg-transparent">
                 Retour

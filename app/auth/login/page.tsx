@@ -44,10 +44,10 @@ export default function LoginPage() {
         }),
       })
 
-      const data: LoginResponse = await response.json()
+      const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.user?.email || "Erreur de connexion")
+        throw new Error(data.message || "Erreur de connexion")
       }
 
       // If user has multiple roles and no role selected yet, show role selector
