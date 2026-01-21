@@ -5,20 +5,65 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Loader2, Truck, CheckCircle, MapPin, CreditCard } from "lucide-react"
+import { Eye, EyeOff, Loader2, Truck, CheckCircle, MapPin, CreditCard, AlertCircle, Users } from "lucide-react"
 import Link from "next/link"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+interface LoginResponse {
+  user: {
+    id: string
+    email: string
+    name: string
+    roles: ("client" | "driver")[]
+    selectedRole: "client" | "driver"
+  }
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [availableRoles, setAvailableRoles] = useState<("client" | "driver")[] | null>(null)
+  const [selectedRole, setSelectedRole] = useState<"client" | "driver" | null>(null)
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError("")
     setIsLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    window.location.href = "/client"
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          role: selectedRole,
+        }),
+      })
+
+      const data: LoginResponse = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.user?.email || "Erreur de connexion")
+      }
+
+      // If user has multiple roles and no role selected yet, show role selector
+      if (!selectedRole && data.user.roles.length > 1) {
+        setAvailableRoles(data.user.roles)
+        setIsLoading(false)
+        return
+      }
+
+      // Login successful, redirect
+      const roleRoute = data.user.selectedRole === "client" ? "/client" : "/driver"
+      window.location.href = roleRoute
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erreur de connexion")
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -34,79 +79,134 @@ export default function LoginPage() {
 
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-sm">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold mb-2">Connexion</h1>
-              <p className="text-muted-foreground">Accédez à votre espace personnel</p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="vous@exemple.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-12"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Mot de passe</Label>
-                  <Link href="/auth/forgot-password" className="text-sm text-primary hover:underline">
-                    Mot de passe oublié ?
-                  </Link>
+            {availableRoles && availableRoles.length > 1 && !selectedRole ? (
+              // Role Selector
+              <div>
+                <div className="text-center mb-8">
+                  <h1 className="text-3xl font-bold mb-2">Choisir un rôle</h1>
+                  <p className="text-muted-foreground">Vous avez plusieurs accès disponibles</p>
                 </div>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="h-12 pr-12"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-muted-foreground" />
-                    )}
+
+                <div className="space-y-4">
+                  {availableRoles.includes("client") && (
+                    <button
+                      onClick={() => setSelectedRole("client")}
+                      className="w-full p-4 rounded-lg border-2 border-zinc-200 hover:border-primary hover:bg-primary/5 transition-all text-left"
+                    >
+                      <p className="font-semibold text-foreground">Client</p>
+                      <p className="text-sm text-muted-foreground">Je cherche un transporteur</p>
+                    </button>
+                  )}
+                  {availableRoles.includes("driver") && (
+                    <button
+                      onClick={() => setSelectedRole("driver")}
+                      className="w-full p-4 rounded-lg border-2 border-zinc-200 hover:border-primary hover:bg-primary/5 transition-all text-left"
+                    >
+                      <p className="font-semibold text-foreground">Conducteur</p>
+                      <p className="text-sm text-muted-foreground">Je propose mes services</p>
+                    </button>
+                  )}
+                </div>
+
+                <Button
+                  variant="outline"
+                  className="w-full mt-6 bg-transparent"
+                  onClick={() => {
+                    setAvailableRoles(null)
+                    setEmail("")
+                    setPassword("")
+                  }}
+                >
+                  Retour
+                </Button>
+              </div>
+            ) : (
+              // Login Form
+              <div>
+                <div className="text-center mb-8">
+                  <h1 className="text-3xl font-bold mb-2">Connexion</h1>
+                  <p className="text-muted-foreground">Accédez à votre espace personnel</p>
+                </div>
+
+                {error && (
+                  <Card className="bg-destructive/10 border-destructive/20 mb-6">
+                    <CardContent className="pt-4 flex items-center gap-3">
+                      <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
+                      <p className="text-sm text-destructive">{error}</p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="vous@exemple.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="h-12"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Mot de passe</Label>
+                      <Link href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                        Mot de passe oublié ?
+                      </Link>
+                    </div>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••••"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="h-12 pr-12"
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5 text-muted-foreground" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full h-12 text-base" disabled={isLoading}>
+                    {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    Se connecter
                   </Button>
-                </div>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">ou</span>
+                    </div>
+                  </div>
+
+                  <p className="text-center text-sm text-muted-foreground">
+                    Pas encore de compte ?{" "}
+                    <Link href="/auth/register" className="text-primary font-medium hover:underline">
+                      Créer un compte
+                    </Link>
+                  </p>
+                </form>
               </div>
-
-              <Button type="submit" className="w-full h-12 text-base" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                Se connecter
-              </Button>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">ou</span>
-                </div>
-              </div>
-
-              <p className="text-center text-sm text-muted-foreground">
-                Pas encore de compte ?{" "}
-                <Link href="/auth/register" className="text-primary font-medium hover:underline">
-                  Créer un compte
-                </Link>
-              </p>
-            </form>
+            )}
           </div>
         </div>
       </div>

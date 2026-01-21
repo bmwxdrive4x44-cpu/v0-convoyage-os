@@ -12,7 +12,7 @@ export interface UserAccount {
   email: string
   password: string
   name?: string
-  role?: string
+  roles: ("client" | "driver")[]
 }
 
 class AuthStore {
@@ -20,13 +20,13 @@ class AuthStore {
   private users: Map<string, UserAccount> = new Map()
 
   constructor() {
-    // Initialize with demo user
+    // Initialize with demo user with both roles
     this.users.set("demo@example.com", {
       id: "user_001",
       email: "demo@example.com",
       password: "hashed_password_demo",
       name: "Demo User",
-      role: "client",
+      roles: ["client"],
     })
   }
 
@@ -67,6 +67,41 @@ class AuthStore {
     user.password = newPassword // In production, hash this with bcrypt
     console.log("[v0] Updated password for:", email)
     return true
+  }
+
+  createOrUpdateUser(
+    email: string,
+    password: string,
+    name: string,
+    role: "client" | "driver"
+  ): UserAccount {
+    const existingUser = this.users.get(email)
+    
+    if (existingUser) {
+      // User already exists, add role if not present
+      if (!existingUser.roles.includes(role)) {
+        existingUser.roles.push(role)
+        console.log(`[v0] Added role ${role} to existing user ${email}`)
+      }
+      return existingUser
+    }
+    
+    // Create new user with role
+    const newUser: UserAccount = {
+      id: `user_${Date.now()}`,
+      email,
+      password,
+      name,
+      roles: [role],
+    }
+    this.users.set(email, newUser)
+    console.log(`[v0] Created new user ${email} with role ${role}`)
+    return newUser
+  }
+
+  getUserRoles(email: string): ("client" | "driver")[] {
+    const user = this.users.get(email)
+    return user?.roles || []
   }
 }
 
