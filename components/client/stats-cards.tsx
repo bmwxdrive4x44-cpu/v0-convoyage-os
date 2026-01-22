@@ -4,25 +4,25 @@ import { Truck, Clock, CheckCircle, MessageSquare } from "lucide-react"
 const stats = [
   {
     label: "Convoyages actifs",
-    value: "3",
+    value: "0",
     icon: Truck,
-    trend: "+1 cette semaine",
+    trend: "En cours",
   },
   {
     label: "En attente d'offres",
-    value: "2",
+    value: "0",
     icon: Clock,
-    trend: "Recevez des offres",
+    trend: "En attente",
   },
   {
     label: "Terminés",
-    value: "12",
+    value: "0",
     icon: CheckCircle,
     trend: "Ce mois-ci",
   },
   {
     label: "Offres reçues",
-    value: "5",
+    value: "0",
     icon: MessageSquare,
     trend: "À examiner",
   },

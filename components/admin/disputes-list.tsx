@@ -16,28 +16,7 @@ interface Dispute {
   status: "pending" | "in-progress" | "completed"
 }
 
-const disputes: Dispute[] = [
-  {
-    id: "1",
-    missionId: "1230",
-    vehicle: "BMW Série 3",
-    reason: "Rayure sur le pare-chocs arrière non signalée",
-    reportedBy: "Jean Dupont",
-    reportedByRole: "client",
-    createdAt: "15 Jan 2026",
-    status: "pending",
-  },
-  {
-    id: "2",
-    missionId: "1225",
-    vehicle: "Audi A4",
-    reason: "Paiement non reçu après livraison",
-    reportedBy: "Pierre Martin",
-    reportedByRole: "driver",
-    createdAt: "12 Jan 2026",
-    status: "in-progress",
-  },
-]
+const disputes: Dispute[] = []
 
 export function DisputesList() {
   return (

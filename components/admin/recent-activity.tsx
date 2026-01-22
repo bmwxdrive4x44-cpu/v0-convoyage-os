@@ -8,38 +8,7 @@ interface ActivityItem {
   timestamp: string
 }
 
-const activities: ActivityItem[] = [
-  {
-    id: "1",
-    type: "driver_approved",
-    description: "Conducteur Sophie Durand approuvé",
-    timestamp: "Il y a 30 min",
-  },
-  {
-    id: "2",
-    type: "convoyage_created",
-    description: "Nouveau convoyage: Paris → Marseille",
-    timestamp: "Il y a 1 heure",
-  },
-  {
-    id: "3",
-    type: "mission_completed",
-    description: "Mission #1234 terminée avec succès",
-    timestamp: "Il y a 2 heures",
-  },
-  {
-    id: "4",
-    type: "payment",
-    description: "Paiement de 180€ reçu",
-    timestamp: "Il y a 3 heures",
-  },
-  {
-    id: "5",
-    type: "dispute_opened",
-    description: "Litige ouvert sur mission #1230",
-    timestamp: "Il y a 5 heures",
-  },
-]
+const activities: ActivityItem[] = []
 
 const iconMap = {
   driver_approved: { icon: UserPlus, color: "text-success", bg: "bg-success/10" },
@@ -60,22 +29,26 @@ export function RecentActivity() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {activities.map((activity) => {
-            const config = iconMap[activity.type]
-            return (
-              <div key={activity.id} className="flex items-center gap-4">
-                <div className={`h-10 w-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
-                  <config.icon className={`h-5 w-5 ${config.color}`} />
+        {activities.length === 0 ? (
+          <p className="text-muted-foreground text-center py-8">Aucune activite recente</p>
+        ) : (
+          <div className="space-y-4">
+            {activities.map((activity) => {
+              const config = iconMap[activity.type]
+              return (
+                <div key={activity.id} className="flex items-center gap-4">
+                  <div className={`h-10 w-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
+                    <config.icon className={`h-5 w-5 ${config.color}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground truncate">{activity.description}</p>
+                    <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{activity.description}</p>
-                  <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        )}
       </CardContent>
     </Card>
   )
