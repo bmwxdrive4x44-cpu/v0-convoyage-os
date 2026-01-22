@@ -6,20 +6,9 @@ export function Logo() {
       <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
         <Truck className="h-5 w-5 text-primary-foreground" />
       </div>
-      <svg width="120" height="28" viewBox="0 0 120 28" className="fill-current">
-        {/* C in orange */}
-        <text x="0" y="22" fontSize="22" fontWeight="700" fill="hsl(var(--color-primary))" fontFamily="system-ui, -apple-system, sans-serif">
-          C
-        </text>
-        {/* onvoyage in white/foreground */}
-        <text x="15" y="22" fontSize="22" fontWeight="700" fill="hsl(var(--color-foreground))" fontFamily="system-ui, -apple-system, sans-serif">
-          onvoyage
-        </text>
-        {/* OS in orange */}
-        <text x="105" y="22" fontSize="22" fontWeight="700" fill="hsl(var(--color-primary))" fontFamily="system-ui, -apple-system, sans-serif">
-          OS
-        </text>
-      </svg>
+      <div className="text-xl font-bold whitespace-nowrap tracking-tight">
+        <span className="text-primary">C</span><span className="text-foreground">onvoyage</span><span className="text-primary">OS</span>
+      </div>
     </div>
   )
 }

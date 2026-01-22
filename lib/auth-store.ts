@@ -20,7 +20,7 @@ class AuthStore {
   private users: Map<string, UserAccount> = new Map()
 
   constructor() {
-    // Initialize with demo users
+    // Initialize with demo users for testing
     this.users.set("demo@example.com", {
       id: "user_001",
       email: "demo@example.com",
@@ -34,6 +34,21 @@ class AuthStore {
       password: "password123",
       name: "Test Driver",
       roles: ["driver"],
+    })
+    // Add test users
+    this.users.set("bmwxdrive4x44@gmail.com", {
+      id: "user_003",
+      email: "bmwxdrive4x44@gmail.com",
+      password: "password123",
+      name: "BMW Driver",
+      roles: ["client", "driver"],
+    })
+    this.users.set("shopteek@gmail.com", {
+      id: "user_004",
+      email: "shopteek@gmail.com",
+      password: "password123",
+      name: "Shop Teek",
+      roles: ["client"],
     })
   }
 

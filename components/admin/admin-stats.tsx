@@ -4,7 +4,7 @@ import { Users, Truck, Clock, AlertTriangle } from "lucide-react"
 const stats = [
   {
     label: "Conducteurs en attente",
-    value: "8",
+    value: "0",
     icon: Users,
     trend: "À valider",
     color: "text-warning",
@@ -12,15 +12,15 @@ const stats = [
   },
   {
     label: "Convoyages actifs",
-    value: "24",
+    value: "0",
     icon: Truck,
-    trend: "+3 aujourd'hui",
+    trend: "En cours",
     color: "text-primary",
     bgColor: "bg-primary/10",
   },
   {
     label: "Missions en cours",
-    value: "12",
+    value: "0",
     icon: Clock,
     trend: "En transit",
     color: "text-success",
@@ -28,7 +28,7 @@ const stats = [
   },
   {
     label: "Litiges ouverts",
-    value: "2",
+    value: "0",
     icon: AlertTriangle,
     trend: "À traiter",
     color: "text-destructive",

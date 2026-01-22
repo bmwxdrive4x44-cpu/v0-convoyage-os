@@ -29,9 +29,13 @@ export async function POST(request: Request) {
 
     // Generate reset token
     const resetToken = authStore.generateResetToken(email)
-    const resetLink = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/auth/reset-password?token=${resetToken}`
+    
+    // Construct reset link from request headers
+    const origin = request.headers.get("origin") || request.headers.get("referer")?.replace(/\/$/, "") || "https://v0-convoyage-os-dv.vercel.app"
+    const resetLink = `${origin}/auth/reset-password?token=${resetToken}`
 
-    console.log("[v0] Generated reset link:", resetLink)
+    console.log("[v0] Generated reset token:", resetToken)
+    console.log("[v0] Reset link:", resetLink)
 
     // Send email
     const emailSent = await sendPasswordResetEmail(email, resetLink)
@@ -44,6 +48,7 @@ export async function POST(request: Request) {
       {
         message: "Si un compte existe avec cet email, vous recevrez un lien de réinitialisation",
         email,
+        resetLink, // Include for development mode
       },
       { status: 200 }
     )

@@ -372,15 +372,33 @@ export function DriverOnboardingForm() {
                         <span className="text-sm font-medium">Téléchargé</span>
                       </div>
                     ) : (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDocumentUpload(doc.id)}
-                        className="bg-transparent"
-                      >
-                        <Upload className="h-4 w-4 mr-2" />
-                        Choisir fichier
-                      </Button>
+                      <>
+                        <input
+                          ref={(el) => {
+                            if (el) fileInputRefs.current[doc.id] = el
+                          }}
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          className="hidden"
+                          onChange={(e) => {
+                            if (e.target.files?.[0]) {
+                              handleDocumentSelect(doc.id, e.target.files[0])
+                            }
+                          }}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            console.log("[v0] Clicking file input for:", doc.id)
+                            fileInputRefs.current[doc.id]?.click()
+                          }}
+                          className="bg-transparent"
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choisir fichier
+                        </Button>
+                      </>
                     )}
                   </div>
                 </div>

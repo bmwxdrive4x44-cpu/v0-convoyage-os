@@ -20,48 +20,7 @@ interface Mission {
   }
 }
 
-const missions: Mission[] = [
-  {
-    id: "1",
-    vehicle: "BMW Série 3",
-    pickupLocation: "Paris, 75008",
-    deliveryLocation: "Lyon, 69001",
-    date: "18 Jan 2026",
-    price: 180,
-    status: "in-progress",
-    client: { name: "Jean Dupont", phone: "06 12 34 56 78" },
-  },
-  {
-    id: "2",
-    vehicle: "Audi A4",
-    pickupLocation: "Marseille, 13001",
-    deliveryLocation: "Nice, 06000",
-    date: "22 Jan 2026",
-    price: 120,
-    status: "upcoming",
-    client: { name: "Marie Martin", phone: "06 98 76 54 32" },
-  },
-  {
-    id: "3",
-    vehicle: "Mercedes Classe C",
-    pickupLocation: "Bordeaux, 33000",
-    deliveryLocation: "Toulouse, 31000",
-    date: "10 Jan 2026",
-    price: 150,
-    status: "completed",
-    client: { name: "Pierre Durand", phone: "06 11 22 33 44" },
-  },
-  {
-    id: "4",
-    vehicle: "Volkswagen Golf",
-    pickupLocation: "Lille, 59000",
-    deliveryLocation: "Paris, 75001",
-    date: "5 Jan 2026",
-    price: 100,
-    status: "completed",
-    client: { name: "Sophie Lefebvre", phone: "06 55 66 77 88" },
-  },
-]
+const missions: Mission[] = []
 
 export function DriverMissions() {
   const upcomingMissions = missions.filter((m) => m.status === "upcoming")

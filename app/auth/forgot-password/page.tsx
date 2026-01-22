@@ -13,6 +13,7 @@ export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState("")
+  const [resetLink, setResetLink] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,15 +27,17 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email }),
       })
 
+      const data = await response.json()
+      
       if (!response.ok) {
-        const data = await response.json()
         throw new Error(data.message || "Erreur lors de l'envoi")
       }
 
-      console.log("[v0] Password reset email sent for:", email)
+      if (data.resetLink) {
+        setResetLink(data.resetLink)
+      }
       setIsSubmitted(true)
     } catch (err) {
-      console.error("[v0] Error:", err)
       setError(err instanceof Error ? err.message : "Une erreur est survenue")
     } finally {
       setIsLoading(false)
@@ -116,11 +119,19 @@ export default function ForgotPasswordPage() {
                   Un lien de réinitialisation a été envoyé à <span className="font-medium text-foreground">{email}</span>
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-                <p className="text-sm text-muted-foreground">
-                  Veuillez vérifier votre boîte de réception et vos spams si vous ne voyez pas le message.
-                </p>
-              </div>
+              {resetLink && (
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    <strong>Mode développement:</strong> Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe:
+                  </p>
+                  <Link 
+                    href={resetLink.replace(/^https?:\/\/[^/]+/, '')} 
+                    className="text-primary text-sm font-medium hover:underline break-all"
+                  >
+                    Réinitialiser mon mot de passe
+                  </Link>
+                </div>
+              )}
               <Button variant="outline" className="w-full h-12 bg-transparent" asChild>
                 <Link href="/auth/login">Retour à la connexion</Link>
               </Button>

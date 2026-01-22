@@ -23,57 +23,7 @@ interface Driver {
   rating?: number
 }
 
-const drivers: Driver[] = [
-  {
-    id: "1",
-    name: "Marc Lefebvre",
-    initials: "ML",
-    email: "marc.lefebvre@email.com",
-    phone: "06 12 34 56 78",
-    status: "pending",
-    submittedAt: "Il y a 2 heures",
-  },
-  {
-    id: "2",
-    name: "Claire Moreau",
-    initials: "CM",
-    email: "claire.moreau@email.com",
-    phone: "06 98 76 54 32",
-    status: "pending",
-    submittedAt: "Il y a 5 heures",
-  },
-  {
-    id: "3",
-    name: "Pierre Martin",
-    initials: "PM",
-    email: "pierre.martin@email.com",
-    phone: "06 11 22 33 44",
-    status: "accepted",
-    approvedAt: "10 Jan 2026",
-    missions: 45,
-    rating: 4.8,
-  },
-  {
-    id: "4",
-    name: "Sophie Durand",
-    initials: "SD",
-    email: "sophie.durand@email.com",
-    phone: "06 55 66 77 88",
-    status: "accepted",
-    approvedAt: "5 Jan 2026",
-    missions: 78,
-    rating: 4.9,
-  },
-  {
-    id: "5",
-    name: "Jean Dubois",
-    initials: "JD",
-    email: "jean.dubois@email.com",
-    phone: "06 99 88 77 66",
-    status: "rejected",
-    submittedAt: "12 Jan 2026",
-  },
-]
+const drivers: Driver[] = []
 
 export function DriversList() {
   const [searchQuery, setSearchQuery] = useState("")

@@ -23,58 +23,7 @@ interface Offer {
   status: "pending" | "accepted" | "rejected"
 }
 
-const offers: Offer[] = [
-  {
-    id: "1",
-    driverName: "Pierre Martin",
-    driverInitials: "PM",
-    rating: 4.8,
-    completedMissions: 45,
-    price: 180,
-    convoyage: {
-      id: "1",
-      vehicle: "BMW Série 3",
-      route: "Paris → Lyon",
-      date: "18 Jan 2026",
-    },
-    message:
-      "Bonjour, je suis disponible pour cette mission. J'ai une grande expérience avec les véhicules premium et je connais bien ce trajet.",
-    status: "pending",
-  },
-  {
-    id: "2",
-    driverName: "Sophie Durand",
-    driverInitials: "SD",
-    rating: 4.9,
-    completedMissions: 78,
-    price: 195,
-    convoyage: {
-      id: "1",
-      vehicle: "BMW Série 3",
-      route: "Paris → Lyon",
-      date: "18 Jan 2026",
-    },
-    message:
-      "Conductrice expérimentée avec plus de 5 ans d'expérience. Je peux également être flexible sur les horaires.",
-    status: "pending",
-  },
-  {
-    id: "3",
-    driverName: "Marc Lefebvre",
-    driverInitials: "ML",
-    rating: 4.7,
-    completedMissions: 32,
-    price: 165,
-    convoyage: {
-      id: "2",
-      vehicle: "Renault Clio",
-      route: "Marseille → Nice",
-      date: "20 Jan 2026",
-    },
-    message: "Je connais parfaitement cette route côtière. Disponible à la date souhaitée.",
-    status: "accepted",
-  },
-]
+const offers: Offer[] = []
 
 export function OffersList() {
   const pendingOffers = offers.filter((o) => o.status === "pending")

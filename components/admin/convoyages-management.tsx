@@ -20,50 +20,7 @@ interface Convoyage {
   price?: number
 }
 
-const convoyages: Convoyage[] = [
-  {
-    id: "1",
-    vehicle: "BMW Série 3",
-    pickupLocation: "Paris",
-    deliveryLocation: "Lyon",
-    date: "18 Jan 2026",
-    status: "pending",
-    client: "Jean Dupont",
-  },
-  {
-    id: "2",
-    vehicle: "Mercedes GLC",
-    pickupLocation: "Bordeaux",
-    deliveryLocation: "Toulouse",
-    date: "19 Jan 2026",
-    status: "accepted",
-    client: "Marie Martin",
-    driver: "Pierre Martin",
-    price: 150,
-  },
-  {
-    id: "3",
-    vehicle: "Audi Q5",
-    pickupLocation: "Marseille",
-    deliveryLocation: "Nice",
-    date: "17 Jan 2026",
-    status: "in-progress",
-    client: "Sophie Lefebvre",
-    driver: "Sophie Durand",
-    price: 120,
-  },
-  {
-    id: "4",
-    vehicle: "Porsche 911",
-    pickupLocation: "Lyon",
-    deliveryLocation: "Paris",
-    date: "15 Jan 2026",
-    status: "completed",
-    client: "Pierre Durand",
-    driver: "Marc Lefebvre",
-    price: 200,
-  },
-]
+const convoyages: Convoyage[] = []
 
 export function ConvoyagesManagement() {
   const [searchQuery, setSearchQuery] = useState("")
