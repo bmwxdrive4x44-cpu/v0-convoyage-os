@@ -1,16 +1,14 @@
 import { Truck } from "lucide-react"
 import Link from "next/link"
 import { DriverOnboardingForm } from "@/components/driver/onboarding-form"
+import { Logo } from "@/components/landing/logo"
 
 export default function DriverOnboardingPage() {
   return (
     <div className="min-h-screen bg-background">
       <header className="p-4 border-b border-border">
         <Link href="/" className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-            <Truck className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="font-bold text-xl text-foreground">ConvoyageOS</span>
+          <Logo />
         </Link>
       </header>
       <main className="container mx-auto px-4 py-8">

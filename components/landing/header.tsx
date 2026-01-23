@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
+import { Logo } from "./logo"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -29,31 +30,24 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-                <Truck className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div className="text-xl font-bold whitespace-nowrap tracking-tight">
-                <span className="text-primary">C</span><span className="text-foreground">onvoyage</span><span className="text-primary">OS</span>
-              </div>
-            </div>
+            <Logo />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link 
-              href={isHomePage ? "#solutions" : "/#solutions"} 
+            <Link
+              href={isHomePage ? "#solutions" : "/#solutions"}
               onClick={(e) => handleNavClick(e, "solutions")}
               className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
               Solutions
             </Link>
-            <Link 
-              href="/comment-ca-marche" 
+            <Link
+              href="/comment-ca-marche"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Comment ça marche
             </Link>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Contact
@@ -64,9 +58,9 @@ export function Header() {
               <Link href="/auth/login">Connexion</Link>
             </Button>
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -76,22 +70,22 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-4">
-              <Link 
-                href={isHomePage ? "#solutions" : "/#solutions"} 
+              <Link
+                href={isHomePage ? "#solutions" : "/#solutions"}
                 onClick={(e) => handleNavClick(e, "solutions")}
                 className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
                 Solutions
               </Link>
-              <Link 
-                href="/comment-ca-marche" 
+              <Link
+                href="/comment-ca-marche"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Comment ça marche
               </Link>
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
