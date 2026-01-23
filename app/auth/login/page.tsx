@@ -5,6 +5,7 @@ import { Eye, EyeOff, Loader2, Truck, CheckCircle, MapPin, CreditCard, AlertCirc
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Logo } from "@/components/landing/logo"
+import { useState } from "react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
