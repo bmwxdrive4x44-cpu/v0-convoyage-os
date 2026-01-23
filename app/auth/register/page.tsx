@@ -14,12 +14,10 @@ export default function RegisterPage() {
           <span className="font-bold text-xl text-foreground">ConvoyageOS</span>
         </Link>
       </header>
-
       {/* Main */}
       <main className="flex-1 flex items-center justify-center p-4">
         <RegisterForm />
       </main>
-
       {/* Background decoration */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-primary/5 rounded-full blur-3xl" />

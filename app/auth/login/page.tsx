@@ -36,7 +36,9 @@ export default function LoginPage() {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           email,
           password,
@@ -74,9 +76,8 @@ export default function LoginPage() {
           <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
             <Truck className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="font-bold text-xl text-foreground">Convoyageos</span>
+          <span className="font-bold text-xl text-foreground">ConvoyageOS</span>
         </Link>
-
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-sm">
             {availableRoles && availableRoles.length > 1 && !selectedRole ? (
@@ -86,7 +87,6 @@ export default function LoginPage() {
                   <h1 className="text-3xl font-bold mb-2">Choisir un rôle</h1>
                   <p className="text-muted-foreground">Vous avez plusieurs accès disponibles</p>
                 </div>
-
                 <div className="space-y-4">
                   {availableRoles.includes("client") && (
                     <button
@@ -107,9 +107,8 @@ export default function LoginPage() {
                     </button>
                   )}
                 </div>
-
-                <Button
-                  variant="outline"
+                <Button 
+                  variant="outline" 
                   className="w-full mt-6 bg-transparent"
                   onClick={() => {
                     setAvailableRoles(null)
@@ -127,7 +126,6 @@ export default function LoginPage() {
                   <h1 className="text-3xl font-bold mb-2">Connexion</h1>
                   <p className="text-muted-foreground">Accédez à votre espace personnel</p>
                 </div>
-
                 {error && (
                   <Card className="bg-destructive/10 border-destructive/20 mb-6">
                     <CardContent className="pt-4 flex items-center gap-3">
@@ -136,7 +134,6 @@ export default function LoginPage() {
                     </CardContent>
                   </Card>
                 )}
-
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
@@ -150,7 +147,6 @@ export default function LoginPage() {
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password">Mot de passe</Label>
@@ -183,12 +179,10 @@ export default function LoginPage() {
                       </Button>
                     </div>
                   </div>
-
                   <Button type="submit" className="w-full h-12 text-base" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                     Se connecter
                   </Button>
-
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
                       <span className="w-full border-t" />
@@ -197,7 +191,6 @@ export default function LoginPage() {
                       <span className="bg-background px-2 text-muted-foreground">ou</span>
                     </div>
                   </div>
-
                   <p className="text-center text-sm text-muted-foreground">
                     Pas encore de compte ?{" "}
                     <Link href="/auth/register" className="text-primary font-medium hover:underline">
@@ -210,33 +203,25 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-
       {/* Right side - Marketing */}
       <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 p-12 flex-col justify-center relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
+          <div 
+            className="absolute inset-0" 
+            style={{ 
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
+            }} 
           />
         </div>
-
         <div className="relative z-10 max-w-lg">
           <p className="text-primary font-medium mb-4">Disponible en France, Europe & Afrique du Nord</p>
-
           <h2 className="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
-            LE CONVOYAGE
-            <br />
-            NOUVELLE GÉNÉRATION
+            LE CONVOYAGE <br /> NOUVELLE GÉNÉRATION
           </h2>
-
           <p className="text-zinc-400 text-lg mb-8">
-            La plateforme SaaS tout-en-un pour gérer vos déplacements de véhicules et transports de marchandises.
-            Simple, Sécurisé, Instantané.
+            La plateforme SaaS tout-en-un pour gérer vos déplacements de véhicules et transports de marchandises. Simple, Sécurisé, Instantané.
           </p>
-
           {/* Badges */}
           <div className="flex flex-wrap gap-3 mb-10">
             <div className="flex items-center gap-2 bg-zinc-800/50 px-4 py-2 rounded-full border border-zinc-700">
@@ -252,7 +237,6 @@ export default function LoginPage() {
               <span className="text-white text-sm">Paiement Sécurisé</span>
             </div>
           </div>
-
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6">
             <div>

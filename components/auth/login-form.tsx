@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -41,20 +40,20 @@ export function LoginForm({ role, onSubmit }: LoginFormProps) {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-
+  
   const config = roleConfig[role]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-
+    
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
-
+    
     if (onSubmit) {
       onSubmit(email, password)
     }
-
+    
     // Redirect to dashboard (in real app, this would be after auth)
     window.location.href = config.dashboardLink
   }

@@ -8,9 +8,8 @@ const _inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "ConvoyageOS - Plateforme de Convoyage de Véhicules",
-  description:
-    "La plateforme professionnelle de convoyage automobile. Connectez clients et conducteurs en toute sécurité.",
-    generator: 'v0.app'
+  description: "La plateforme professionnelle de convoyage automobile. Connectez clients et conducteurs en toute sécurité.",
+  generator: 'v0.app'
 }
 
 export default function RootLayout({

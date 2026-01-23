@@ -11,13 +11,12 @@ export function Footer() {
               <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
                 <Truck className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-bold text-xl text-foreground">Convoyageos</span>
+              <span className="font-bold text-xl text-foreground">ConvoyageOS</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               La référence du convoyage digital en Europe et Afrique du Nord.
             </p>
           </div>
-
           <div>
             <h4 className="font-semibold text-foreground mb-4">Services</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -38,7 +37,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
           <div>
             <h4 className="font-semibold text-foreground mb-4">Légal</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -69,7 +67,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-
           <div>
             <h4 className="font-semibold text-foreground mb-4">Contact</h4>
             <ul className="space-y-3 text-sm text-muted-foreground">
@@ -92,9 +89,8 @@ export function Footer() {
             </ul>
           </div>
         </div>
-
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 Convoyageos. Tous droits réservés.</p>
+          <p className="text-sm text-muted-foreground">© 2026 ConvoyageOS. Tous droits réservés.</p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>Europe & Afrique du Nord</span>
           </div>

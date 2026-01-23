@@ -2,22 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  Truck,
-  LayoutDashboard,
-  Plus,
-  FileText,
-  MessageSquare,
-  CreditCard,
-  User,
-  LogOut,
-  Car,
-  ClipboardList,
-  Users,
-  Shield,
-  AlertTriangle,
-  CheckCircle,
-} from "lucide-react"
+import { Truck, LayoutDashboard, Plus, FileText, MessageSquare, CreditCard, User, LogOut, Car, ClipboardList, Users, Shield, AlertTriangle, CheckCircle, } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -69,7 +54,6 @@ export function Sidebar({ role }: SidebarProps) {
           </div>
           <span className="font-bold text-lg text-sidebar-foreground">ConvoyageOS</span>
         </div>
-
         {/* Role badge */}
         <div className="px-6 py-4">
           <div className="flex items-center gap-2 rounded-lg bg-sidebar-accent px-3 py-2">
@@ -84,7 +68,6 @@ export function Sidebar({ role }: SidebarProps) {
             {role === "driver" && <CheckCircle className="h-4 w-4 text-success ml-auto" />}
           </div>
         </div>
-
         {/* Navigation */}
         <nav className="flex-1 space-y-1 px-3 py-2">
           {menuItems[role].map((item) => {
@@ -106,7 +89,6 @@ export function Sidebar({ role }: SidebarProps) {
             )
           })}
         </nav>
-
         {/* User section */}
         <div className="border-t border-sidebar-border p-4">
           <div className="flex items-center gap-3 mb-4">

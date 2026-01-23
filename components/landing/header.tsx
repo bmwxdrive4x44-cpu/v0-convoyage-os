@@ -1,14 +1,12 @@
 "use client"
 
 import type React from "react"
-import { Truck } from "lucide-react" // Import Truck here
-
+import { Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { Logo } from "./logo"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -31,61 +29,74 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <Logo />
+            <div className="flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
+                <Truck className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="text-xl font-bold whitespace-nowrap tracking-tight">
+                <span className="text-primary">C</span><span className="text-foreground">onvoyage</span><span className="text-primary">OS</span>
+              </div>
+            </div>
           </Link>
-
           <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href={isHomePage ? "#solutions" : "/#solutions"}
+            <Link 
+              href={isHomePage ? "#solutions" : "/#solutions"} 
               onClick={(e) => handleNavClick(e, "solutions")}
               className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
               Solutions
             </Link>
-            <Link href="/comment-ca-marche" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link 
+              href="/comment-ca-marche" 
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               Comment ça marche
             </Link>
-            <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link 
+              href="/contact" 
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
               Contact
             </Link>
           </nav>
-
           <div className="hidden md:flex items-center gap-3">
             <Button asChild variant="ghost">
               <Link href="/auth/login">Connexion</Link>
             </Button>
           </div>
-
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
-
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-4">
-              <Link
-                href={isHomePage ? "#solutions" : "/#solutions"}
+              <Link 
+                href={isHomePage ? "#solutions" : "/#solutions"} 
                 onClick={(e) => handleNavClick(e, "solutions")}
                 className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
                 Solutions
               </Link>
-              <Link
-                href="/comment-ca-marche"
+              <Link 
+                href="/comment-ca-marche" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Comment ça marche
               </Link>
-              <Link
-                href="/contact"
+              <Link 
+                href="/contact" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Contact
               </Link>
-
               <div className="pt-4 border-t border-border flex flex-col gap-2">
                 <Button asChild variant="outline" className="w-full bg-transparent">
                   <Link href="/auth/login">Connexion</Link>
