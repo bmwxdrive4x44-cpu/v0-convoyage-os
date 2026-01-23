@@ -44,7 +44,7 @@ export function HeroSection() {
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            La plateforme SaaS tout-en-un pour gérer vos déplacements de véhicules et transports de marchandises.{" "}
+            La plateforme SaaS tout-en-un pour gérer vos déplacements de véhicules et transports de marchandises.
             <span className="text-foreground font-medium">Simple, Sécurisé, Instantané.</span>
           </p>
 
@@ -53,7 +53,7 @@ export function HeroSection() {
               <Link href="/auth/client">Obtenir un devis gratuit</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="text-base bg-transparent">
-              <Link href="/auth/driver">Devenir Conducteur</Link>
+              <Link href="/auth/driver/register">Devenir Conducteur</Link>
             </Button>
           </div>
 
