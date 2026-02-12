@@ -1,5 +1,6 @@
-import { Truck, Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone, MapPin } from "lucide-react"
 import Link from "next/link"
+import { Logo } from "./logo"
 
 export function Footer() {
   return (
@@ -8,13 +9,10 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-                <Truck className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="font-bold text-xl text-foreground">ConvoyageOS</span>
+              <Logo />
             </Link>
             <p className="text-sm text-muted-foreground">
-              La référence du convoyage digital en Europe et Afrique du Nord.
+              La plateforme logistique next-gen pour les transporteurs modernes.
             </p>
           </div>
           <div>
@@ -90,7 +88,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 ConvoyageOS. Tous droits réservés.</p>
+          <p className="text-sm text-muted-foreground">© 2026 CARGO. Tous droits réservés.</p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>Europe & Afrique du Nord</span>
           </div>

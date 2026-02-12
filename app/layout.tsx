@@ -7,8 +7,8 @@ import "./globals.css"
 const _inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ConvoyageOS - Plateforme de Convoyage de Véhicules",
-  description: "La plateforme professionnelle de convoyage automobile. Connectez clients et conducteurs en toute sécurité.",
+  title: "CARGO - Plateforme Logistique Next-Gen",
+  description: "La plateforme SaaS intelligente pour gérer vos transports et déplacements de véhicules en toute sécurité.",
   generator: 'v0.app'
 }
 

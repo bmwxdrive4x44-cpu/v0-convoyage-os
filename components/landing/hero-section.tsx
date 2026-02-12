@@ -34,11 +34,11 @@ export function HeroSection() {
         <div className="text-center max-w-4xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-2 text-sm text-primary">
             <Truck className="h-4 w-4" />
-            Plateforme SaaS de Convoyage
+            Plateforme SaaS Logistique
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-balance">
-            <span className="text-foreground">LE CONVOYAGE</span>
+            <span className="text-foreground">LOGISTIQUE</span>
             <br />
             <span className="text-primary">NOUVELLE GÉNÉRATION</span>
           </h1>
