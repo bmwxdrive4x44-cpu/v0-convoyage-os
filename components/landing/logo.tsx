@@ -4,10 +4,10 @@ export function Logo() {
       <img 
         src="/convoyage-logo.jpg" 
         alt="ConvoyageOS" 
-        className="h-10 w-10 rounded-lg object-cover"
+        className="h-10 w-10 object-cover"
       />
       <div className="text-xl font-bold whitespace-nowrap tracking-tight">
-        <span className="text-primary">Convoy</span><span className="text-foreground">age</span><span className="text-primary">OS</span>
+        <span className="text-white">Convoyage</span><span className="text-orange-500">OS</span>
       </div>
     </div>
   )
