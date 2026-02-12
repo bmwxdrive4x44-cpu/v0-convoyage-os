@@ -38,7 +38,7 @@ export function HeroSection() {
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-balance">
-            <span className="text-foreground">LOGISTIQUE</span>
+            <span className="text-foreground">LE CONVOYAGE</span>
             <br />
             <span className="text-primary">NOUVELLE GÉNÉRATION</span>
           </h1>

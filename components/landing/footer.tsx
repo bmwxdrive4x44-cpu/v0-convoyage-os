@@ -12,7 +12,7 @@ export function Footer() {
               <Logo />
             </Link>
             <p className="text-sm text-muted-foreground">
-              La plateforme logistique next-gen pour les transporteurs modernes.
+              La plateforme de convoyage de véhicules nouvelle génération en Europe et Afrique du Nord.
             </p>
           </div>
           <div>
@@ -88,7 +88,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2026 CARGO. Tous droits réservés.</p>
+          <p className="text-sm text-muted-foreground">© 2026 ConvoyageOS. Tous droits réservés.</p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>Europe & Afrique du Nord</span>
           </div>

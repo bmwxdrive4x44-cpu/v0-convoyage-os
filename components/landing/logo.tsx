@@ -3,11 +3,11 @@ export function Logo() {
     <div className="flex items-center gap-3">
       <img 
         src="/convoyage-logo.jpg" 
-        alt="CARGO" 
+        alt="ConvoyageOS" 
         className="h-10 w-10"
       />
-      <span className="text-lg font-bold text-white tracking-wider">
-        <span className="text-orange-500">CARGO</span>
+      <span className="text-sm font-bold text-white">
+        <span className="text-foreground">Convoyage</span><span className="text-orange-500 font-extrabold">OS</span>
       </span>
     </div>
   )
